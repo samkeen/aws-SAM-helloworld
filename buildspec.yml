@@ -1,0 +1,113 @@
+version: 0.2
+
+# Examples, see:
+#  https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html
+
+# spec: https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html
+# Environment Variables in Build Environments :
+#   https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-env-vars.html
+
+
+
+phases:
+# finally blocks: Commands specified in a finally block are executed after commands in the commands
+#  block. The commands in a finally block are executed even if a command in the commands block fails.
+
+#  We recommend that you use the install phase only for installing packages in the build environment. For example,
+#  you might use this phase to install a code testing framework such as Mocha or RSpec.
+#  [optional]
+#  install:
+#    run-as: Linux-user-name
+#    commands:
+#      - command
+#      - command
+#    finally:
+#      - command
+#      - command
+
+  install:
+    commands:
+      - pip install --user aws-sam-cli
+      - USER_BASE_PATH=$(python -m site --user-base)
+      - export PATH=$PATH:$USER_BASE_PATH/bin
+      - sam --version
+#  Represents the commands, if any, that CodeBuild runs before the build. For example, you might use this phase to
+#  sign in to Amazon ECR, or you might install npm dependencies.
+#  [optional]
+#  pre_build:
+#    run-as: Linux-user-name
+#    commands:
+#      - command
+#      - command
+#    finally:
+#      - command
+#      - command
+
+#  Represents the commands, if any, that CodeBuild runs during the build. For example, you might use this phase
+#  to run Mocha, RSpec, or sbt.
+#  [optional]
+#  build:
+#    run-as: Linux-user-name
+#    commands:
+#      - command
+#      - command
+#    finally:
+#      - command
+#      - command
+  build:
+    commands:
+      - export BUCKET=sk-sam-hello-world
+      - export SOURCE_TEMPLATE=template.yaml
+      - export PACKAGED_TEMPLATE=sam-packaged.yaml
+      - sam package --template-file $SOURCE_TEMPLATE --s3-bucket $BUCKET --output-template-file $PACKAGED_TEMPLATE
+
+#  Represents the commands, if any, that CodeBuild runs after the build. For example, you might use Maven to
+#  package the build artifacts into a JAR or WAR file, or you might push a Docker image into Amazon ECR. Then
+#  you might send a build notification through Amazon SNS.
+#  [optional]
+#  post_build:
+#    run-as: Linux-user-name
+#    commands:
+#      - command
+#      - command
+#    finally:
+#      - command
+#      - command
+
+#artifacts:
+# Represents information about where CodeBuild can find the build output and how CodeBuild prepares it for
+#  uploading to the Amazon S3 output bucket. This sequence is not required if, for example, you are building
+#  and pushing a Docker image to Amazon ECR, or you are running unit tests on your source code, but not building it.
+
+# See
+#  files:
+#    - location
+#    - location
+#  name: artifact-name
+#  discard-paths: yes
+#  base-directory: location
+#  secondary-artifacts:
+#    artifactIdentifier:
+#      files:
+#        - location
+#        - location
+#      name: secondary-artifact-name
+#      discard-paths: yes
+#      base-directory: location
+#    artifactIdentifier:
+#      files:
+#        - location
+#        - location
+#      discard-paths: yes
+#      base-directory: location
+
+artifacts:
+  type: zip
+  files:
+    - template.yaml
+    - sam-packaged.yaml
+
+#cache:
+#  paths:
+#    - path
+#    - path

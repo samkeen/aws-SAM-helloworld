@@ -25,6 +25,10 @@ Resources:
                     Properties:
                         Path: /hello
                         Method: get
+    # @TODO Canary Deployments
+    # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/automating-updates-to-serverless-apps.html
+    # https://aws.amazon.com/blogs/compute/implementing-safe-aws-lambda-deployments-with-aws-codedeploy/
+
 
 Outputs:
 

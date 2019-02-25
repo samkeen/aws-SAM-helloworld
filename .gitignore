@@ -222,3 +222,4 @@ $RECYCLE.BIN/
 
 # SAM build dir
 /.aws-sam/
+/sam-packaged.yaml
