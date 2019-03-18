@@ -27,6 +27,7 @@ phases:
 
   install:
     commands:
+      # Install AWS SAM
       - pip install --user aws-sam-cli
       - USER_BASE_PATH=$(python -m site --user-base)
       - export PATH=$PATH:$USER_BASE_PATH/bin
@@ -56,7 +57,8 @@ phases:
 #      - command
   build:
     commands:
-      - export BUCKET=sk-sam-hello-world
+      # LAMBDA_PKG_BUCKET from CodeBuild Project
+      - export BUCKET=$LAMBDA_PKG_BUCKET
       - export SOURCE_TEMPLATE=template.yaml
       - export PACKAGED_TEMPLATE=sam-packaged.yaml
       - sam package --template-file $SOURCE_TEMPLATE --s3-bucket $BUCKET --output-template-file $PACKAGED_TEMPLATE

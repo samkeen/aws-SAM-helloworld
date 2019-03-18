@@ -135,6 +135,11 @@ Resources:
         ComputeType: BUILD_GENERAL1_SMALL
         Image: aws/codebuild/python:3.6.5
         ImagePullCredentialsType: CODEBUILD
+        EnvironmentVariables:
+          -
+            Name: LAMBDA_PKG_BUCKET
+            Type: PLAINTEXT
+            Value: !Ref LambdaS3Bucket
       Source:
         Type: CODEPIPELINE
       TimeoutInMinutes: 15
