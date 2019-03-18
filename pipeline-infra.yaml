@@ -317,23 +317,7 @@ Resources:
   #  - code-pipeline
   #    - service role
 
-  PipelineS3Bucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: !Sub ${AppName}-${AWS::Region}-pipeline-artifacts
-      BucketEncryption:
-        ServerSideEncryptionConfiguration:
-          - ServerSideEncryptionByDefault:
-              SSEAlgorithm: AES256
 
-  LambdaS3Bucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: !Sub ${AppName}-lambda-code
-      BucketEncryption:
-        ServerSideEncryptionConfiguration:
-          - ServerSideEncryptionByDefault:
-              SSEAlgorithm: AES256
 
 
 
@@ -488,9 +472,7 @@ Resources:
 
 
 Outputs:
-  S3BucketForAppLambdaPackage:
-    Description: The bucket for holding ouu app's lambda code
-    Value: !Ref LambdaS3Bucket
+
   ServiceRoleForCodeDeploy:
     Description: The CodeBuild's Service Role
     Value: !Ref CodeDeployServiceRole

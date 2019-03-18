@@ -7,6 +7,9 @@ version: 0.2
 # Environment Variables in Build Environments :
 #   https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-env-vars.html
 
+env:
+  variables:
+    LAMBDA_PKG_BUCKET_PREFIX: mia
 
 
 phases:
@@ -60,9 +63,12 @@ phases:
       # LAMBDA_PKG_BUCKET from CodeBuild Project
       - echo "Lambda package bucket is $LAMBDA_PKG_BUCKET"
       - export BUCKET=$LAMBDA_PKG_BUCKET
+      # $LAMBDA_PKG_BUCKET_PREFIX from env: ^Above
+      - echo "Lambda package bucket prefix is $LAMBDA_PKG_BUCKET_PREFIX"
+      - export BUCKET_PREFIX=$LAMBDA_PKG_BUCKET_PREFIX
       - export SOURCE_TEMPLATE=template.yaml
       - export PACKAGED_TEMPLATE=sam-packaged.yaml
-      - sam package --template-file $SOURCE_TEMPLATE --s3-bucket $BUCKET --output-template-file $PACKAGED_TEMPLATE
+      - sam package --template-file $SOURCE_TEMPLATE --s3-bucket $BUCKET --s3-prefix $BUCKET_PREFIX --output-template-file $PACKAGED_TEMPLATE
 
 #  Represents the commands, if any, that CodeBuild runs after the build. For example, you might use Maven to
 #  package the build artifacts into a JAR or WAR file, or you might push a Docker image into Amazon ECR. Then
