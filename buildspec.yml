@@ -58,6 +58,7 @@ phases:
   build:
     commands:
       # LAMBDA_PKG_BUCKET from CodeBuild Project
+      - echo "Lambda package bucket is $LAMBDA_PKG_BUCKET"
       - export BUCKET=$LAMBDA_PKG_BUCKET
       - export SOURCE_TEMPLATE=template.yaml
       - export PACKAGED_TEMPLATE=sam-packaged.yaml
