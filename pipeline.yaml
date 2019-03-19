@@ -19,7 +19,6 @@ Metadata:
             - AppCodeComitRepoName
             - AppCodeComitRepoBranchName
 
-
 Parameters:
 
   AppName:
